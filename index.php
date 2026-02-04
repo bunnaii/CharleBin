@@ -10,6 +10,8 @@
  */
 
 // change this, if your php files and data is outside of your webservers document root
+echo "test";
+
 define('PATH', '');
 
 define('PUBLIC_PATH', __DIR__);
