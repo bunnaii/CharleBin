@@ -26,21 +26,21 @@ class Request
      *
      * @const string
      */
-    const MIME_JSON = 'application/json';
+    public const MIME_JSON = 'application/json';
 
     /**
      * MIME type for HTML
      *
      * @const string
      */
-    const MIME_HTML = 'text/html';
+    public const MIME_HTML = 'text/html';
 
     /**
      * MIME type for XHTML
      *
      * @const string
      */
-    const MIME_XHTML = 'application/xhtml+xml';
+    public const MIME_XHTML = 'application/xhtml+xml';
 
     /**
      * Input stream to use for PUT parameter parsing
@@ -103,7 +103,7 @@ class Request
     public function __construct()
     {
         // decide if we are in JSON API or HTML context
-        $this->_isJsonApi = $this->_detectJsonRequest();
+        $this->_isJsonApi = $this->detectJsonRequest();
 
         // parse parameters, depending on request type
         switch (array_key_exists('REQUEST_METHOD', $_SERVER) ? $_SERVER['REQUEST_METHOD'] : 'GET') {
@@ -113,9 +113,7 @@ class Request
                 // it might be a creation or a deletion, the latter is detected below
                 $this->_operation = 'create';
                 try {
-                    $this->_params = Json::decode(
-                        file_get_contents(self::$_inputStream)
-                    );
+                    $this->_params = Json::decode(file_get_contents(self::$_inputStream));
                 } catch (Exception $e) {
                     // ignore error, $this->_params will remain empty
                 }
@@ -257,7 +255,7 @@ class Request
      * @access private
      * @return bool
      */
-    private function _detectJsonRequest()
+    private function detectJsonRequest()
     {
         $hasAcceptHeader = array_key_exists('HTTP_ACCEPT', $_SERVER);
         $acceptHeader    = $hasAcceptHeader ? $_SERVER['HTTP_ACCEPT'] : '';
